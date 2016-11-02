@@ -1,0 +1,2 @@
+Check how to refresh tabs using receiver, which is having "APPOINTMENT_REFRESH" as intent filter
+which helps also for refresh sub fragment listview from anypoint, without using object of fragment

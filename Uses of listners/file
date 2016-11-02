@@ -1,0 +1,22 @@
+Basically, listner is used for sending back to method where it come from.
+
+Like we are on any activity, and we want to use common function, but we also want to do some operation on result which is
+retrived from that common function, and if those operation will be simple db operation then we can might adjust via flags, but
+those are related to ui elemenets, like hide show then we must perform those things into activity itself..
+
+At that place, this listners will come into picture, like activity, will call common function, bt also pass one listner
+( "createAppoListner" into file BookAppointmentAcitivty.java  and passed to "AppointmentCreateCalls" into BaseActivity )
+and into BaseActivity once operation perform that result will be pass back to listner, which is come again to parent activity
+ mean "BookAppointmentAcitivty.java".
+
+ ===============
+
+ Listner is nothing but interface
+
+ public interface ReturnListner {
+         public void returnResult(String value);
+     }
+
+
+we can implement into acitity, and use the methos returnResult for retriving result.
+

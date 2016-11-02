@@ -1,0 +1,54 @@
+This is all about network layer, in this we have use enum feature by fantastic way for handing all our netwrork calls urls,
+and having all into one place is also easy to add, delete things,
+
+example:
+public enum Endpoint {
+        CREATE_USER("/user/signup"),
+        SIGN_IN("/user/signin"),
+        EDIT_USER("/api/user/edit"),
+        GET_SERVICES("/api/service/services"),
+        APPOINTMENT_CREATE("/api/customer/appointment/create"),
+        APPOINTMENT_EDIT("/api/customer/appointment/edit"),
+        APPOINTMENT_CUST("/api/customer/appointments"),
+        APPOINTMENT_CANCEL("/api/customer/appointment/cancel"),
+        ALL_NEW_APPONTMENTS_PROF("/api/appointment/new"),
+        APPOINTMENT_ACCEPT_PROF("/api/professional/appointment/accept"),
+        APPOINTMENT_REJECT_PROF("/api/professional/appointment/reject"),
+        APPOINTMENT_CANCEL_PROF("/api/professional/appointment/cancel"),
+        APPOINTMENT_COMPLETE_PROF("/api/professional/appointment/complete"),
+        ALL_ACCEPTED_APPOINTMENT("/api/professional/appointment"),
+        CREATE_STRIPE_USER("/api/card/create"),
+        EDIT_STRIPE_USER("/api/card/edit"),
+        DELETE_STRIPE_USER("/api/card/delete"),
+        CHANGE_DEFAULT("/api/card/defaultChange"),
+        RATE_APPOINTMENT_BY_CUST("/api/customer/appointment/rate"),
+        RATE_APPOINTMENT_BY_PROF("/api/professional/appointment/rate"),
+        GET_STIPE_CARD_DETAILS("/api/customer/payment/details"),
+        CHANGE_PASSWORD("/api/user/changePassword"),
+        RESET_PASSWORD("/user/resetPassword"),
+        FORGOT_PASSWORD("/user/forgotPassword"),
+        GET_ALL_MESSAGE("/api/appointment/viewMessage"),
+        MAKE_ALL_READ("/api/appointment/readMessage"),
+        SEND_MESSAGE("/api/appointment/sendMessage"),
+        START_APPOINTMENT("/api/appointment/start"),
+        REGISTER_DEVICE("/api/RegisterDevice"),
+        HELP_APPOINTMENT("/api/appointment/help"),
+        CONTACT_US("/api/appointment/contact"),
+        LOGOUT("/api/user/logout"),
+        IS_AVAILABLE("/api/user/available"),
+        CREATE_STRIPE_ACCOUNT("/api/professionals/stripeAccountCreate"),
+        STRIPE_ACCOUNT_DETAILS("/api/professionals/accountDetail"),
+        GET_TRANSACTION_HISTORY("/api/professionals/retrieveTransactionHistory"),
+        PROFESSIONAL_PENLATY_CHARGE("/api/professionals/Charge"),
+        GET_HELP_QUESTIONS("/api/appointment/questions")
+        ;
+
+        public final String path;
+
+        Endpoint(String path) {
+            this.path = path;
+        }
+    }
+
+
+ApiCalls is used for actaull operation, using this file we can maintain all calls, like post get, delete, push in one file, this file is only having operations for network, which actually take request from ApiRequest and pass result back to same file

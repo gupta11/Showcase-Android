@@ -1,0 +1,4 @@
+BaseActivity and BaseFragment is like we can say heart of coders, all common functions, variables, listners, receiver, layout operation
+toast messages, will be handle into this BaseActivity and BaseFragment.
+
+It is always good to use this in all projects, this will make things easilar alot.

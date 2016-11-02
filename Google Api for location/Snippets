@@ -1,0 +1,52 @@
+url: http://maps.google.com/maps/api/geocode/json?address=ZIP&ka&sensor=false
+address: this field can have anything like full address, zipcode, country name anything related address, and goodle will return
+json response in back
+
+===================
+code
+
+response will be return using network connection call, and parse result like this. We can use this into form which is having details of user address
+--> User just require to fill address. then rest of information like city, county, state retrive via url, this can reduce work of gathering all name of city, country, states, and arrage them as ladder.
+
+public String getCityCountry(String responseString) {
+        String mCountryName = "";
+        try {
+
+            JSONObject googleMapResponse = new JSONObject(responseString);
+            if (!TextUtils.equals(googleMapResponse.getString("status"), "ZERO_RESULTS")) {
+                Log.d("mapResponse", googleMapResponse.toString());
+                JSONArray addCompo = ((JSONArray) googleMapResponse.get("results")).getJSONObject(0)
+                        .getJSONArray("address_components");
+                for (int i = 0; i < addCompo.length(); i++) {
+                    JSONArray types = addCompo.getJSONObject(i).getJSONArray("types");
+                    for (int j = 0; j < types.length(); j++) {
+
+                        if (TextUtils.equals(types.getString(j), "locality")) {
+                            mCountryName = addCompo.getJSONObject(i).getString("long_name") + "/";
+                            break;
+                        }
+
+                        if (TextUtils.equals(types.getString(j), "administrative_area_level_1")) {
+                            mCountryName += addCompo.getJSONObject(i).getString("short_name");
+                            break;
+                        }
+
+                        if (TextUtils.equals(types.getString(j), "country")) {
+                            mCountryName += ", " + addCompo.getJSONObject(i).getString("long_name");
+                            break;
+                        }
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        Log.d("mCountryName", mCountryName);
+        return mCountryName;
+    }
+
+
+
+//////////////// you can check response via copying this url on browser
+"http://maps.google.com/maps/api/geocode/json?address=91758&ka&sensor=false"

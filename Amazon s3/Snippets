@@ -1,0 +1,81 @@
+public class UploadProfilePicture extends AsyncTask<Void, Void, String> {
+
+        TransferManager transferManager;
+        ReturnListner listner;
+        File file;  //file which will be going to upload
+        String uploadname = "";
+
+        public UploadProfilePicture(ReturnListner listner, File file) {
+            this.listner = listner;
+            this.file = file;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            mProgressDialog.setMessage(getString(R.string.txt_uploading_image));
+            mProgressDialog.setCancelable(false);
+            if (listner != null)
+                mProgressDialog.show();
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            setupAmzon(); // this is for setting up amazon and get token
+            uploadname = getString(R.string.upload_path); // upload image path, like 1/b/c -> will be saved into bucket/1/b/c/filename like i can say folder wise
+
+            //set ACL right
+            PutObjectRequest putObjectRequest = new PutObjectRequest(mBucketName, uploadname, file);
+            AccessControlList acl = new AccessControlList();
+            acl.grantPermission(GroupGrantee.AllUsers, Permission.Read);
+            putObjectRequest.setAccessControlList(acl);
+
+            Upload upload = transferManager.upload(putObjectRequest);
+            while (!upload.isDone()) {
+            }
+            if (upload.getProgress().getPercentTransferred() == 100) {
+                Log.d("upload photo done", upload.toString());
+                Log.d("upload photo done", upload.getDescription());
+
+                return "Success";
+
+            } else {
+                Log.d("Return null", "Restart again");
+                return null;
+            }
+
+        }
+
+        public void setupAmzon() {
+            mBucketName = getString(R.string.bucket_name); // main bucket name
+            CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(
+                    getApplicationContext(), // Context
+                    "us-east-1:e685830a-9b2b-413e-8761-2e7134af719c", // Identity Pool ID
+                    Regions.US_EAST_1
+            );
+            String identityId = credentialsProvider.getIdentityId();
+            String token = credentialsProvider.getToken();
+            Log.d("CognitoCaching", identityId + " " + token);
+            transferManager = new TransferManager(credentialsProvider);
+
+
+        }
+
+        @Override
+        protected void onPostExecute(String aVoid) {
+            if (listner != null)
+                mProgressDialog.dismiss();
+            if (TextUtils.equals("Success", aVoid)) {
+                if (listner != null) {
+                    if (apiRequests.isNetworkAvailable(getAppCon()))
+                        new CreateUser(listner, false).execute(new FormEncodingBuilder().add("img_path", uploadname).build());
+                    else
+                        Snackbar.make(mainActivityLayout, R.string.txt_no_internet, Snackbar.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(getBaseContext(), R.string.upload_failed, Toast.LENGTH_SHORT).show();
+            }
+            super.onPostExecute(aVoid);
+        }
+    }

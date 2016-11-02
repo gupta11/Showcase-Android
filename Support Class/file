@@ -1,0 +1,3 @@
+SupportedClass and Constans will used for all common operation,
+SupportedClass uses for common operation like parsing same json, hide keyboard, store preference, retrive preference..
+Constants used for managing all keys, passing paramaters, preferences key name in one place, which wil be easy to change on future if required...
