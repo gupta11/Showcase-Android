@@ -51,4 +51,4 @@ public enum Endpoint {
     }
 
 
-ApiCalls is used for actaull operation, using this file we can maintain all calls, like post get, delete, push in one file, this file is only having operations for network, which actually take request from ApiRequest and pass result back to same file
+ApiCalls is used for actual operation, using this file we can maintain all calls, like post get, delete, push in one file, this file is only having operations for network, which actually takes request from ApiRequest and pass result back to same file
